@@ -11,9 +11,9 @@ public class UserInterface {
     }
 
     public void display(){
-        System.out.println("---------------------------------------------------------");
+        System.out.println("---------------------------------------------");
         System.out.println("Welcome to the Object Oriented Dealership!");
-        System.out.println("---------------------------------------------------------");
+        System.out.println("---------------------------------------------");
 
         System.out.println("1)Filter by price");
         System.out.println("2)Filter by make/model");
@@ -22,6 +22,8 @@ public class UserInterface {
         System.out.println("5)Filter by mileage");
         System.out.println("6)Filter by vehicle type");
         System.out.println("7)View all vehicles");
+        System.out.println("8)Add vehicle");
+
         System.out.println("\n");
 
         short choice = Console.PromptForShort("Enter a selection: ");
@@ -64,15 +66,40 @@ public class UserInterface {
                 displayFilters(dealership.getAllVehicles());
             }
 
+            case 8 -> {
+                addVehicle();
+            }
+
         }
 
 
     }
+
+    public void addVehicle(){
+
+        Vehicle newVehicle = promptForAddingVehicle();
+        dealership.addVehicle(newVehicle);
+    }
+
     public void displayFilters(ArrayList<Vehicle> inventory){
         System.out.printf("%5s|%5s|%5s|%5s|%5s|%5s|%5s|%5s\n","vin","year","make","model","vehicle-type","color","odometer","price");
         System.out.println("-------------------------------------------------------");
         for (Vehicle v: inventory){
             System.out.println(v.toString());
         }
+    }
+
+    public Vehicle promptForAddingVehicle(){
+        int vinToAdd = Console.PromptForInt("Add a vin: ");
+        int yearToAdd = Console.PromptForInt("Add a year: ");
+        String makeToAdd = Console.PromptForString("Add a make: ");
+        String modelToAdd = Console.PromptForString("Add a model: ");
+        String vehicleTypeToAdd = Console.PromptForString("What type of vehicle is this (truck,suv,van,etc): ");
+        String colorToAdd = Console.PromptForString("What color is this vehicle: ");
+        int odometerToAdd = Console.PromptForInt("Add odometer: ");
+        double priceToAdd = Console.PromptForDouble("Add price: ");
+        Vehicle vehicleToAdd = new Vehicle(vinToAdd,yearToAdd,makeToAdd,modelToAdd,vehicleTypeToAdd,colorToAdd,odometerToAdd,priceToAdd);
+
+        return vehicleToAdd;
     }
 }

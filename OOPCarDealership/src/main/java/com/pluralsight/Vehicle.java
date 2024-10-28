@@ -21,6 +21,10 @@ public class Vehicle {
         this.price = price;
     }
 
+    public Vehicle(String encodedVehicleString){
+
+    }
+
     public int getVin() {
         return vin;
     }
@@ -57,4 +61,9 @@ public class Vehicle {
     public String toString() {
         return String.format("%d|%d|%s|%s|%s|%s|%d|%.2f\n",vin,year,make,model,vehicleType,color,odometer,price);
     }
+
+    public String toEncodedString() {
+        return String.format("%d|%d|%s|%s|%s|%s|%d|%.2f\n",vin,year,make,model,vehicleType,color,odometer,price);
+    }
+
 }

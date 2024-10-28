@@ -79,35 +79,18 @@ public class Dealership {
     public ArrayList<Vehicle> getAllVehicles(){
         return inventory;
     }
-    public void addVehicle(){
+    public void setInventory(ArrayList<Vehicle> inventory){
+        this.inventory = inventory;
+    }
+    public void addVehicle(Vehicle v){
         try{
-            int vinToAdd = Console.PromptForInt("Add a vin: ");
-            int yearToAdd = Console.PromptForInt("Add a year: ");
-            String makeToAdd = Console.PromptForString("Add a make: ");
-            String modelToAdd = Console.PromptForString("Add a model: ");
-            String vehicleTypeToAdd = Console.PromptForString("What type of vehicle is this (truck,suv,van,etc): ");
-            String colorToAdd = Console.PromptForString("What color is this vehicle: ");
-            int odometerToAdd = Console.PromptForInt("Add odometer: ");
-            double priceToAdd = Console.PromptForDouble("Add price: ");
 
-            Vehicle vehicleToAdd = new Vehicle(vinToAdd,yearToAdd,makeToAdd,modelToAdd,vehicleTypeToAdd,colorToAdd,odometerToAdd,priceToAdd);
-            this.inventory.add(vehicleToAdd);
+            this.inventory.add(v);
             DealershipFileManager.saveDealership(inventory);
         }catch(Exception e){e.getMessage();}
     }
 
-    public String getName() {
-        return name;
-    }
-    public String getAddress() {
-        return address;
-    }
-    public String getPhone() {
-        return phone;
-    }
-    public void setInventory(ArrayList<Vehicle> inventory){
-        this.inventory = inventory;
-    }
+
     @Override
     public String toString(){
         return String.format("%s|%s|%s\n", name,address,phone);

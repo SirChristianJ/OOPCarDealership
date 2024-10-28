@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class DealershipFileManager {
     static final String datafile = "vehicles.csv";
-    static Dealership dealership = getDealership();
+    private static Dealership dealership = getDealership();
 
     public static Dealership getDealership(){
         Dealership test;
@@ -43,9 +43,7 @@ public class DealershipFileManager {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(datafile));
             bufferedWriter.write(dealership.toString());
             for (Vehicle v : inventory) {
-                String data = String.format("%d|%d|%s|%s|%s|%s|%d|%.2f\n",
-                                            v.getVin(),v.getYear(),v.getMake(),v.getModel(),
-                                            v.getVehicleType(),v.getColor(),v.getOdometer(),v.getPrice());
+                String data = v.toString();
                 bufferedWriter.write(data);
             }
 
@@ -54,5 +52,13 @@ public class DealershipFileManager {
         } catch (Exception e) {
             System.out.println("FILE WRITE ERROR");
         }
+    }
+
+    String encodeVehicle(Vehicle v){
+
+    }
+
+    Vehicle decodeVehicle(String vehicleString){
+
     }
 }
