@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import java.lang.invoke.VarHandle;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class Dealership {
     private String name;
@@ -84,10 +85,21 @@ public class Dealership {
     }
     public void addVehicle(Vehicle v){
         try{
-
             this.inventory.add(v);
             DealershipFileManager.saveDealership(inventory);
-        }catch(Exception e){e.getMessage();}
+        }
+        catch(Exception e)
+        {
+            e.getMessage();
+        }
+    }
+    public void removeVehicle(int vinToQuery){
+        try{
+            inventory.removeIf(vehicle -> vehicle.getVin() == vinToQuery);
+            DealershipFileManager.saveDealership(inventory);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

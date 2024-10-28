@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import javax.crypto.Cipher;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 public class UserInterface {
     private Dealership dealership;
@@ -11,68 +12,86 @@ public class UserInterface {
     }
 
     public void display(){
-        System.out.println("---------------------------------------------");
-        System.out.println("Welcome to the Object Oriented Dealership!");
-        System.out.println("---------------------------------------------");
+        do {
+            System.out.println("---------------------------------------------");
+            System.out.println("Welcome to the Object Oriented Dealership!");
+            System.out.println("---------------------------------------------");
 
-        System.out.println("1)Filter by price");
-        System.out.println("2)Filter by make/model");
-        System.out.println("3)Filter by year");
-        System.out.println("4)Filter by color");
-        System.out.println("5)Filter by mileage");
-        System.out.println("6)Filter by vehicle type");
-        System.out.println("7)View all vehicles");
-        System.out.println("8)Add vehicle");
+            System.out.println("1)Filter by price");
+            System.out.println("2)Filter by make/model");
+            System.out.println("3)Filter by year");
+            System.out.println("4)Filter by color");
+            System.out.println("5)Filter by mileage");
+            System.out.println("6)Filter by vehicle type");
+            System.out.println("7)View all vehicles");
+            System.out.println("8)Add vehicle");
+            System.out.println("9)Remove vehicle");
+            System.out.println("99)Exit");
 
-        System.out.println("\n");
+            System.out.println("\n");
 
-        short choice = Console.PromptForShort("Enter a selection: ");
-        switch (choice){
-            case 1 -> {
-                int minRange = Console.PromptForInt("Enter a min range:");
-                int maxRange = Console.PromptForInt("Enter a max range: ");
-                displayFilters(dealership.getVehiclesByPrice(minRange,maxRange));
+            try {
+                short choice = Console.PromptForShort("Enter a selection: ");
+                switch (choice) {
+                    case 1 -> {
+                        int minRange = Console.PromptForInt("Enter a min range:");
+                        int maxRange = Console.PromptForInt("Enter a max range: ");
+                        displayFilteredInventory(dealership.getVehiclesByPrice(minRange, maxRange));
+                    }
+
+                    case 2 -> {
+                        String makeRange = Console.PromptForString("Enter a make:");
+                        String modelRange = Console.PromptForString("Enter a model: ");
+                        displayFilteredInventory(dealership.getVehiclesByMakeModel(makeRange, modelRange));
+                    }
+
+                    case 3 -> {
+                        int minYearRange = Console.PromptForInt("Enter a min year: ");
+                        int maxYearRange = Console.PromptForInt("Enter a max year: ");
+                        displayFilteredInventory(dealership.getVehiclesByYear(minYearRange, maxYearRange));
+                    }
+
+                    case 4 -> {
+                        String colorRange = Console.PromptForString("Enter a color: ");
+                        displayFilteredInventory(dealership.getVehiclesByColor(colorRange));
+                    }
+
+                    case 5 -> {
+                        int minMileageRange = Console.PromptForInt("Enter a min mileage: ");
+                        int maxMileageRange = Console.PromptForInt("Enter a max mileage: ");
+                        displayFilteredInventory(dealership.getVehiclesByMileage(minMileageRange, maxMileageRange));
+                    }
+
+                    case 6 -> {
+                        String vehicleTypeQuery = Console.PromptForString("Enter a vehicle type: ");
+                        displayFilteredInventory(dealership.getVehiclesByType(vehicleTypeQuery));
+                    }
+
+                    case 7 -> {
+                        displayInventoryByVinYearMakeModel(dealership.getAllVehicles());
+                    }
+
+                    case 8 -> {
+                        addVehicle();
+                    }
+
+                    case 9 -> {promptForRemovingVehicle();}
+
+                    case 99 -> {
+                        System.out.println("Exiting ...");
+                        return;
+                    }
+
+                    default -> {
+                        System.out.println("Please enter one of the available selections!\n");
+                    }
+                }
+            } catch (NumberFormatException e){
+                System.out.println("Enter a numerical number!");
             }
+            String keyPress = Console.PromptForString("\nPress any key to return to previous menu: ");
 
-            case 2 -> {
-                String makeRange = Console.PromptForString("Enter a make:");
-                String modelRange = Console.PromptForString("Enter a model: ");
-                displayFilters(dealership.getVehiclesByMakeModel(makeRange,modelRange));
-            }
-
-            case 3 -> {
-                int minYearRange = Console.PromptForInt("Enter a min year: ");
-                int maxYearRange = Console.PromptForInt("Enter a max year: ");
-                displayFilters(dealership.getVehiclesByYear(minYearRange,maxYearRange));
-            }
-
-            case 4 -> {
-                String colorRange = Console.PromptForString("Enter a color: ");
-                displayFilters(dealership.getVehiclesByColor(colorRange));
-            }
-
-            case 5 -> {
-                int minMileageRange = Console.PromptForInt("Enter a min mileage: ");
-                int maxMileageRange = Console.PromptForInt("Enter a max mileage: ");
-                displayFilters(dealership.getVehiclesByMileage(minMileageRange,maxMileageRange));
-            }
-
-            case 6 -> {
-                String vehicleTypeQuery = Console.PromptForString("Enter a vehicle type: ");
-                displayFilters(dealership.getVehiclesByType(vehicleTypeQuery));
-            }
-
-            case 7 -> {
-                displayFilters(dealership.getAllVehicles());
-            }
-
-            case 8 -> {
-                addVehicle();
-            }
-
-        }
-
-
+        }while (true);
     }
 
     public void addVehicle(){
@@ -81,7 +100,15 @@ public class UserInterface {
         dealership.addVehicle(newVehicle);
     }
 
-    public void displayFilters(ArrayList<Vehicle> inventory){
+    public void displayInventoryByVinYearMakeModel(ArrayList<Vehicle> inventory){
+        System.out.printf("%5s|%5s|%5s|%5s\n","vin","year","make","model");
+        System.out.println("-----------------------------------------------");
+        for (Vehicle v: inventory){
+            System.out.println(v.toEncodedString());
+        }
+    }
+
+    public void displayFilteredInventory(ArrayList<Vehicle> inventory){
         System.out.printf("%5s|%5s|%5s|%5s|%5s|%5s|%5s|%5s\n","vin","year","make","model","vehicle-type","color","odometer","price");
         System.out.println("-------------------------------------------------------");
         for (Vehicle v: inventory){
@@ -101,5 +128,10 @@ public class UserInterface {
         Vehicle vehicleToAdd = new Vehicle(vinToAdd,yearToAdd,makeToAdd,modelToAdd,vehicleTypeToAdd,colorToAdd,odometerToAdd,priceToAdd);
 
         return vehicleToAdd;
+    }
+
+    public void promptForRemovingVehicle(){
+        int vinToRemove = Console.PromptForInt("Add a vin: ");
+        dealership.removeVehicle(vinToRemove);
     }
 }

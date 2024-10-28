@@ -21,8 +21,15 @@ public class Vehicle {
         this.price = price;
     }
 
-    public Vehicle(String encodedVehicleString){
-
+    public Vehicle(int vinQuery){
+            this.vin = vinQuery;
+            this.year = getYear();
+            this.make = getMake();
+            this.model = getModel();
+            this.vehicleType = getVehicleType();
+            this.color = getColor();
+            this.odometer = getOdometer();
+            this.price = getPrice();
     }
 
     public int getVin() {
@@ -63,7 +70,8 @@ public class Vehicle {
     }
 
     public String toEncodedString() {
-        return String.format("%d|%d|%s|%s|%s|%s|%d|%.2f\n",vin,year,make,model,vehicleType,color,odometer,price);
+        return String.format("%d|%d|%s|%s\n",vin,year,make,model);
     }
+
 
 }

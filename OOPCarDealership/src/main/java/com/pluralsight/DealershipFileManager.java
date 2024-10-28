@@ -53,12 +53,4 @@ public class DealershipFileManager {
             System.out.println("FILE WRITE ERROR");
         }
     }
-
-    String encodeVehicle(Vehicle v){
-
-    }
-
-    Vehicle decodeVehicle(String vehicleString){
-
-    }
 }
