@@ -102,7 +102,6 @@ public class Dealership {
         }
     }
 
-
     @Override
     public String toString(){
         return String.format("%s|%s|%s\n", name,address,phone);

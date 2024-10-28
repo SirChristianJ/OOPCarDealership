@@ -21,17 +21,6 @@ public class Vehicle {
         this.price = price;
     }
 
-    public Vehicle(int vinQuery){
-            this.vin = vinQuery;
-            this.year = getYear();
-            this.make = getMake();
-            this.model = getModel();
-            this.vehicleType = getVehicleType();
-            this.color = getColor();
-            this.odometer = getOdometer();
-            this.price = getPrice();
-    }
-
     public int getVin() {
         return vin;
     }
